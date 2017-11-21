@@ -1,7 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import timer from "react-native-timer";
-import moment from "moment";
 
 const cornflowerblue = "#6495ed";
 
@@ -11,17 +10,13 @@ export default class App extends React.Component {
   constructor() {
     super();
 
-    const timeToGo = moment().to(this.to, true);
-
     this.state = {
-      to: this.to,
-      timeToGo
+      timeToGo: countdown(this.to)
     };
   }
 
   updateTime = () => {
-    const now = moment();
-    this.setState({ timeToGo: now.to(this.to, true) });
+    this.setState({ timeToGo: countdown(this.to) });
   };
 
   componentDidMount() {
@@ -35,8 +30,13 @@ export default class App extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.leaving}>Leaving in...</Text>
-        <Text style={styles.togo}>{this.state.timeToGo}</Text>
+        <Text style={styles.leaving}>I am leaving in...</Text>
+        <Text> </Text>
+        <Text style={styles.togo}>{this.state.timeToGo.days} days</Text>
+        <Text style={styles.hrsmins}>
+          {this.state.timeToGo.hours} hrs {this.state.timeToGo.minutes} mins{" "}
+          {this.state.timeToGo.seconds} secs
+        </Text>
       </View>
     );
   }
@@ -56,5 +56,26 @@ const styles = StyleSheet.create({
     fontSize: 50,
     fontWeight: "bold",
     color: cornflowerblue
+  },
+  hrsmins: {
+    fontSize: 30,
+    fontWeight: "bold",
+    color: cornflowerblue
   }
 });
+
+const countdown = endtime => {
+  const t = Date.parse(endtime) - Date.parse(new Date());
+
+  const seconds = Math.floor((t / 1000) % 60);
+  const minutes = Math.floor((t / 1000 / 60) % 60);
+  const hours = Math.floor((t / (1000 * 60 * 60)) % 24);
+  const days = Math.floor(t / (1000 * 60 * 60 * 24));
+
+  return {
+    days,
+    hours,
+    minutes,
+    seconds
+  };
+};
