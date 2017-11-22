@@ -1,18 +1,29 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, Image } from "react-native";
 import timer from "react-native-timer";
 
 const cornflowerblue = "#6495ed";
 
 export default class App extends React.Component {
-  to = "2017-11-24T16:00:00Z";
+  to = "2017-11-21T11:46:00Z";
 
   state = {
-    timeToGo: countdown(this.to)
+    timeToGo: countdown(this.to),
+    showGone: false,
+    showSad: false
   };
 
   updateTime = () => {
-    this.setState({ timeToGo: countdown(this.to) });
+    const timeToGo = countdown(this.to);
+    this.setState({
+      timeToGo: timeToGo,
+      showGone:
+        timeToGo.days <= 0 &&
+        timeToGo.hours <= 0 &&
+        timeToGo.minutes <= 0 &&
+        timeToGo.seconds <= 0,
+      showSad: timeToGo.days <= -1
+    });
   };
 
   componentDidMount = () => {
@@ -23,17 +34,56 @@ export default class App extends React.Component {
     timer.clearInterval("dateTimer");
   };
 
+  renderCountDown = ({ days, hours, minutes, seconds }) => {
+    days = Math.abs(days);
+    hours = Math.abs(hours);
+    minutes = Math.abs(minutes);
+    seconds = Math.abs(seconds);
+
+    const daysText = days === 1 ? "day" : "days";
+    const hoursText = hours === 1 ? "hr" : "hrs";
+    const minText = minutes === 1 ? "min" : "mins";
+    const secText = seconds === 1 ? "sec" : "secs";
+
+    return (
+      <View style={styles.timeToGo}>
+        <Text style={styles.togo}>
+          {days} {daysText}
+        </Text>
+        <Text style={styles.hrsmins}>
+          {hours} {hoursText} {minutes} {minText} {seconds} {secText}
+        </Text>
+      </View>
+    );
+  };
+
   render = () => {
-    const { days, hours, minutes, seconds } = this.state.timeToGo;
+    if (this.state.showSad) {
+      return (
+        <View style={styles.container}>
+          <Image source={require("./giphy-sad.gif")} />
+          <Text> </Text>
+          <Text style={styles.hrsmins}>Colin has been gone</Text>
+          {this.renderCountDown(this.state.timeToGo)}
+        </View>
+      );
+    }
+
+    if (this.state.showGone) {
+      return (
+        <View style={styles.container}>
+          <Image source={require("./giphy-gone.gif")} />
+          <Text> </Text>
+          <Text style={styles.togo}>And I'm gone</Text>
+        </View>
+      );
+    }
 
     return (
       <View style={styles.container}>
-        <Text style={styles.leaving}>I am leaving in...</Text>
+        <Text style={styles.leaving}>Colin is leaving in...</Text>
         <Text> </Text>
-        <Text style={styles.togo}>{days} days</Text>
-        <Text style={styles.hrsmins}>
-          {hours} hrs {minutes} mins {seconds} secs
-        </Text>
+        {this.renderCountDown(this.state.timeToGo)}
       </View>
     );
   };
@@ -46,8 +96,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center"
   },
+  timeToGo: {
+    alignItems: "center",
+    justifyContent: "center"
+  },
   leaving: {
-    fontSize: 20
+    fontSize: 20,
+    fontWeight: "bold",
+    color: cornflowerblue
   },
   togo: {
     fontSize: 50,
