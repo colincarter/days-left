@@ -5,24 +5,35 @@ import timer from "react-native-timer";
 const cornflowerblue = "#6495ed";
 
 export default class App extends React.Component {
-  to = "2017-11-21T11:46:00Z";
+  to = "2017-11-24T16:00:00Z";
 
-  state = {
-    timeToGo: countdown(this.to),
-    showGone: false,
-    showSad: false
-  };
+  constructor() {
+    super();
+
+    const timeToGo = countdown(this.to);
+
+    this.state = {
+      timeToGo: timeToGo,
+      showGone: this.hasGone(timeToGo),
+      showSad: this.hasGoneNow(timeToGo)
+    };
+  }
+
+  hasGone = timeToGo =>
+    timeToGo.days <= 0 &&
+    timeToGo.hours <= 0 &&
+    timeToGo.minutes <= 0 &&
+    timeToGo.seconds <= 0;
+
+  hasGoneNow = timeToGo => timeToGo.days <= -2;
 
   updateTime = () => {
     const timeToGo = countdown(this.to);
+
     this.setState({
       timeToGo: timeToGo,
-      showGone:
-        timeToGo.days <= 0 &&
-        timeToGo.hours <= 0 &&
-        timeToGo.minutes <= 0 &&
-        timeToGo.seconds <= 0,
-      showSad: timeToGo.days <= -1
+      showGone: this.hasGone(timeToGo),
+      showSad: this.hasGoneNow(timeToGo)
     });
   };
 
