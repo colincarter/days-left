@@ -7,27 +7,23 @@ const cornflowerblue = "#6495ed";
 export default class App extends React.Component {
   to = "2017-11-24T16:00:00Z";
 
-  constructor() {
-    super();
-
-    this.state = {
-      timeToGo: countdown(this.to)
-    };
-  }
+  state = {
+    timeToGo: countdown(this.to)
+  };
 
   updateTime = () => {
     this.setState({ timeToGo: countdown(this.to) });
   };
 
-  componentDidMount() {
-    this.timer = timer.setInterval("dateTimer", this.updateTime, 1000);
-  }
+  componentDidMount = () => {
+    timer.setInterval("dateTimer", this.updateTime, 1000);
+  };
 
-  componentWillUnmount() {
+  componentWillUnmount = () => {
     timer.clearInterval("dateTimer");
-  }
+  };
 
-  render() {
+  render = () => {
     const { days, hours, minutes, seconds } = this.state.timeToGo;
 
     return (
@@ -40,7 +36,7 @@ export default class App extends React.Component {
         </Text>
       </View>
     );
-  }
+  };
 }
 
 const styles = StyleSheet.create({
