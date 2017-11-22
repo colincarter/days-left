@@ -5,7 +5,7 @@ import timer from "react-native-timer";
 const cornflowerblue = "#6495ed";
 
 export default class App extends React.Component {
-  to = "2017-11-24T16:00:00";
+  to = "2017-11-24T16:00:00Z";
 
   constructor() {
     super();
@@ -28,14 +28,15 @@ export default class App extends React.Component {
   }
 
   render() {
+    const { days, hours, minutes, seconds } = this.state.timeToGo;
+
     return (
       <View style={styles.container}>
         <Text style={styles.leaving}>I am leaving in...</Text>
         <Text> </Text>
-        <Text style={styles.togo}>{this.state.timeToGo.days} days</Text>
+        <Text style={styles.togo}>{days} days</Text>
         <Text style={styles.hrsmins}>
-          {this.state.timeToGo.hours} hrs {this.state.timeToGo.minutes} mins{" "}
-          {this.state.timeToGo.seconds} secs
+          {hours} hrs {minutes} mins {seconds} secs
         </Text>
       </View>
     );
