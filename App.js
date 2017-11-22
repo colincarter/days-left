@@ -5,7 +5,7 @@ import timer from "react-native-timer";
 const cornflowerblue = "#6495ed";
 
 export default class App extends React.Component {
-  to = "2017-11-24T16:00:00Z";
+  to = "2017-11-20T13:17:00Z";
 
   constructor() {
     super();
@@ -85,7 +85,7 @@ export default class App extends React.Component {
         <View style={styles.container}>
           <Image source={require("./giphy-gone.gif")} />
           <Text> </Text>
-          <Text style={styles.togo}>And I'm gone</Text>
+          <Text style={styles.togo}>And I am gone</Text>
         </View>
       );
     }
@@ -131,10 +131,10 @@ const styles = StyleSheet.create({
 const countdown = endtime => {
   const t = Date.parse(endtime) - Date.parse(new Date());
 
-  const seconds = Math.floor((t / 1000) % 60);
-  const minutes = Math.floor((t / 1000 / 60) % 60);
-  const hours = Math.floor((t / (1000 * 60 * 60)) % 24);
-  const days = Math.floor(t / (1000 * 60 * 60 * 24));
+  const seconds = Math.ceil((t / 1000) % 60);
+  const minutes = Math.ceil((t / 1000 / 60) % 60);
+  const hours = Math.ceil((t / (1000 * 60 * 60)) % 24);
+  const days = Math.ceil(t / (1000 * 60 * 60 * 24));
 
   return {
     days,
