@@ -5,7 +5,7 @@ import timer from "react-native-timer";
 const cornflowerblue = "#6495ed";
 
 export default class App extends React.Component {
-  to = "2017-11-20T13:17:00Z";
+  to = "2017-11-24T16:00:00Z";
 
   constructor() {
     super();
@@ -14,8 +14,7 @@ export default class App extends React.Component {
 
     this.state = {
       timeToGo: timeToGo,
-      showGone: this.hasGone(timeToGo),
-      showSad: this.hasGoneNow(timeToGo)
+      showGone: this.hasGone(timeToGo)
     };
   }
 
@@ -25,15 +24,12 @@ export default class App extends React.Component {
     timeToGo.minutes <= 0 &&
     timeToGo.seconds <= 0;
 
-  hasGoneNow = timeToGo => timeToGo.days <= -2;
-
   updateTime = () => {
     const timeToGo = countdown(this.to);
 
     this.setState({
       timeToGo: timeToGo,
-      showGone: this.hasGone(timeToGo),
-      showSad: this.hasGoneNow(timeToGo)
+      showGone: this.hasGone(timeToGo)
     });
   };
 
@@ -69,23 +65,12 @@ export default class App extends React.Component {
   };
 
   render = () => {
-    if (this.state.showSad) {
-      return (
-        <View style={styles.container}>
-          <Image source={require("./giphy-sad.gif")} />
-          <Text> </Text>
-          <Text style={styles.hrsmins}>Colin has been gone</Text>
-          {this.renderCountDown(this.state.timeToGo)}
-        </View>
-      );
-    }
-
     if (this.state.showGone) {
       return (
         <View style={styles.container}>
           <Image source={require("./giphy-gone.gif")} />
           <Text> </Text>
-          <Text style={styles.togo}>And I am gone</Text>
+          <Text style={styles.togo}>And he is gone</Text>
         </View>
       );
     }
@@ -131,10 +116,10 @@ const styles = StyleSheet.create({
 const countdown = endtime => {
   const t = Date.parse(endtime) - Date.parse(new Date());
 
-  const seconds = Math.ceil((t / 1000) % 60);
-  const minutes = Math.ceil((t / 1000 / 60) % 60);
-  const hours = Math.ceil((t / (1000 * 60 * 60)) % 24);
-  const days = Math.ceil(t / (1000 * 60 * 60 * 24));
+  const seconds = Math.floor((t / 1000) % 60);
+  const minutes = Math.floor((t / 1000 / 60) % 60);
+  const hours = Math.floor((t / (1000 * 60 * 60)) % 24);
+  const days = Math.floor(t / (1000 * 60 * 60 * 24));
 
   return {
     days,
