@@ -67,10 +67,10 @@ export default class App extends React.Component {
   render = () => {
     if (this.state.showGone) {
       return (
-        <View style={styles.container}>
+        <View style={styles.containerGone}>
           <Image source={require("./giphy-gone.gif")} />
           <Text> </Text>
-          <Text style={styles.togo}>And he is gone</Text>
+          <Text style={styles.gone}>Colin has gone</Text>
         </View>
       );
     }
@@ -92,6 +92,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center"
   },
+  containerGone: {
+    flex: 1,
+    backgroundColor: "#000",
+    alignItems: "center",
+    justifyContent: "center"
+  },
   timeToGo: {
     alignItems: "center",
     justifyContent: "center"
@@ -105,6 +111,11 @@ const styles = StyleSheet.create({
     fontSize: 50,
     fontWeight: "bold",
     color: cornflowerblue
+  },
+  gone: {
+    fontSize: 50,
+    fontWeight: "bold",
+    color: "#fff"
   },
   hrsmins: {
     fontSize: 30,
